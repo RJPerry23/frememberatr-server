@@ -1,12 +1,15 @@
 const router = require('express').Router();
 const usersController = require('../controllers/usersController');
 // const knex = require('knex')(require('../knexfile').development);
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
 
 router
     .route('/')
-    .get(usersController.index);
+    .get(usersController.index)
+    .post(usersController.newProfile);
+
+router
+    .route('/login')
+    .post(usersController.logIn)
 
 router
     .route('/:user')
