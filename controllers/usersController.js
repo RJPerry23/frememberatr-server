@@ -68,6 +68,14 @@ exports.index = (_req, res) => {
       });
   }
 
+  exports.entireFriendsTable = (_req, res) => {
+    knex('user_friends')
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) => res.status(400).send(`Error retrieving friends table ${err}`));
+  };
+
 exports.profile = (req, res) => {
     knex('profiles')
         .where({ id: req.params.user })
@@ -107,7 +115,7 @@ exports.userDislikes = (req, res) => {
         res
             .status(400)
             .send(
-            `Error retrieving likes for user ${req.params.user} ${err}`
+            `Error retrieving dislikes for user ${req.params.user} ${err}`
             )
         );
     };
@@ -122,10 +130,10 @@ exports.userFriends = (req, res) => {
         res
             .status(400)
             .send(
-            `Error retrieving likes for user ${req.params.user} ${err}`
+            `Error retrieving friends for user ${req.params.user} ${err}`
             )
         );
-    };
+    };  
 
 exports.userFriendRequests = (req, res) => {
     knex('user_friend_requests')
@@ -137,7 +145,7 @@ exports.userFriendRequests = (req, res) => {
         res
             .status(400)
             .send(
-            `Error retrieving likes for user ${req.params.user} ${err}`
+            `Error retrieving friend-requests for user ${req.params.user} ${err}`
             )
         );
     };

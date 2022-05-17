@@ -9,7 +9,11 @@ router
 
 router
     .route('/login')
-    .post(usersController.logIn)
+    .post(usersController.logIn);
+
+router
+    .route('/friendstable')
+    .get(usersController.entireFriendsTable);
 
 router
     .route('/:user')
@@ -17,19 +21,19 @@ router
 
 router
     .route('/:user/likes')
-    .get(usersController.userLikes)
+    .get(usersController.userLikes);
 
 router
     .route('/:user/dislikes')
-    .get(usersController.userDislikes)
+    .get(usersController.userDislikes);
 
 router
     .route('/:user/friends')
-    .get(usersController.userFriends)
+    .get(usersController.userFriends);
 
 router
     .route('/:user/friendrequests')
-    .get(usersController.userFriendRequests)
+    .get(usersController.userFriendRequests);
 
 
 module.exports = router;
