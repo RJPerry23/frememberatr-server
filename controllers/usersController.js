@@ -90,6 +90,18 @@ exports.profile = (req, res) => {
         ))
 }
 
+exports.patchProfile = (req, res) => {
+  knex('profiles')
+    .update(req.body)
+    .where({ id: req.params.user })
+    .then(() => {
+      res.status(200).send(`Profile with id: ${req.params.user} has been updated`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error updating Profile ${req.params.user} ${err}`)
+    );
+};
+
 exports.userLikes = (req, res) => {
     knex('user_likes')
       .where({ user_id: req.params.user })

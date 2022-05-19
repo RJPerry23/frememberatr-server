@@ -6,7 +6,7 @@ exports.up = function(knex) {
         table.increments('id').primary();
         table.string('name').notNullable();
         table.string('about', 1000).notNullable();
-        table.specificType('profilePicture', "longblob");
+        table.string('profilePicture').notNullable();
         table.string('username').notNullable();
         table.string('password').notNullable();
         table.timestamp('updated_at').defaultTo(knex.fn.now());

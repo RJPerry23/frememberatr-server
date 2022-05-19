@@ -1,9 +1,12 @@
-module.exports = [
+const bcrypt = require('bcryptjs');
+
+const profileData =
+[
     {
         id: 1,
         name: "John",
-        about: "Hi there, my name is John and I enjoy playing frisbee. My go to drink order is bud light. I am a huge Green Bay Packers fan. I've have lived my entire life in Wisconsin. Someday I hope to be able to move to Florida.",
-        profilePicture: "http://localhost:1337/images/image0.jpg",
+        about: "Hi there, my name is John and I enjoy playing frisbee. My go to drink order is bud light. I am a huge Green Bay Packers fan. I have lived my entire life in Wisconsin. Someday I hope to be able to move to Florida.",
+        profilePicture: "http://localhost:1337/images/image1.jpg",
         username: "johntheman",
         password: "kangaroos",
     },
@@ -64,3 +67,19 @@ module.exports = [
         password: "kangaroos",
     },
 ]
+
+const hashedProfileData = []
+profileData.forEach((profile) => {
+    const hashedPassword = bcrypt.hashSync(profile.password, 10)
+    const newProfile = {
+        id: profile.id,
+        name: profile.name,
+        about: profile.about,
+        profilePicture: profile.profilePicture,
+        username: profile.username,
+        password: hashedPassword
+    }
+    hashedProfileData.push(newProfile)
+})
+
+module.exports = hashedProfileData

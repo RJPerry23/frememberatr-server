@@ -17,7 +17,8 @@ router
 
 router
     .route('/:user')
-    .get(usersController.profile);
+    .get(usersController.profile)
+    .patch(usersController.patchProfile);
 
 router
     .route('/:user/likes')

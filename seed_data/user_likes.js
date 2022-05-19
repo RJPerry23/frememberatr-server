@@ -12,7 +12,7 @@ module.exports = [
     {
         id: 3,
         user_id: 1,
-        likes: "Long walks on the beach"
+        likes: "Long walks on the beach Long walks on the beach Long walks on the beach"
     },
     {
         id: 4,
