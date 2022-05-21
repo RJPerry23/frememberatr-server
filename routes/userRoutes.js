@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const usersController = require('../controllers/usersController');
 // const knex = require('knex')(require('../knexfile').development);
+const authenticator = require('../middleware/authenticator.js')
+
+//could also do router.use for middleware here
 
 router
     .route('/')
@@ -18,15 +21,29 @@ router
 router
     .route('/:user')
     .get(usersController.profile)
-    .patch(usersController.patchProfile);
+    .patch(authenticator, usersController.patchProfile);
+
+router
+    .route('/:user/authenticate')
+    .get(usersController.authenticate)
 
 router
     .route('/:user/likes')
-    .get(usersController.userLikes);
+    .get(usersController.userLikes)
+    .post(authenticator, usersController.addUserLikes)
+
+router
+    .route('/:user/likes/:id')
+    .delete(authenticator, usersController.deleteUserLikes);
 
 router
     .route('/:user/dislikes')
-    .get(usersController.userDislikes);
+    .get(usersController.userDislikes)
+    .post(authenticator, usersController.addUserDislikes);
+
+router
+    .route('/:user/dislikes/:id')
+    .delete(authenticator, usersController.deleteUserDislikes);
 
 router
     .route('/:user/friends')

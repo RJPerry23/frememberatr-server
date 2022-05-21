@@ -1,6 +1,7 @@
 const knex = require('knex')(require('../knexfile').development);
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const authenticator = require('../middleware/authenticator')
 
 
 exports.index = (_req, res) => {
@@ -55,7 +56,7 @@ exports.index = (_req, res) => {
           }
 
           const token = jwt.sign(
-            { id: user.id, username: user.username },
+            { id: user.id },
             process.env.JWT_KEY,
             { expiresIn: "24h" }
           );
@@ -90,17 +91,37 @@ exports.profile = (req, res) => {
         ))
 }
 
-exports.patchProfile = (req, res) => {
-  knex('profiles')
-    .update(req.body)
-    .where({ id: req.params.user })
-    .then(() => {
-      res.status(200).send(`Profile with id: ${req.params.user} has been updated`);
-    })
-    .catch((err) =>
-      res.status(400).send(`Error updating Profile ${req.params.user} ${err}`)
-    );
-};
+exports.patchProfile = ((req, res, next) => {
+      knex('profiles')
+      .update(req.body)
+      .where({ id: req.decoded.id })
+      .then(() => {
+        res.status(200).send(`Profile with id: ${req.params.user} has been updated`);
+      })
+      .catch((err) =>
+        res.status(400).send(`Error updating Profile ${req.params.user} ${err}`)
+      );
+    }  
+)
+
+exports.authenticate = (req, res) => {
+  // If there is no auth header provided
+  if (!req.headers.authorization) {
+    return res.status(201).send({auth: false});
+  } 
+
+  // Parse the Bearer token
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  jwt.verify(authToken, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).send("Invalid auth token");
+    }
+    if (`${decoded.id}` === req.params.user) {
+      return res.status(201).send({auth: true})
+    }
+    });
+  };
 
 exports.userLikes = (req, res) => {
     knex('user_likes')
@@ -117,6 +138,36 @@ exports.userLikes = (req, res) => {
       );
   };
 
+exports.addUserLikes = (req, res) => {
+  if (!req.body.likes) {
+    return res.status(400).send('Please enter something you like.');
+  }
+  knex('user_likes')
+  .insert(req.body)
+  .then((data) => {
+    res.status(201).json(data);
+  })
+  .catch((err) =>
+  res
+    .status(400)
+    .send(
+      `Error creating like for user ${req.params.user} ${err}`
+    )
+  );
+}
+
+exports.deleteUserLikes = (req, res) => {
+  knex('user_likes')
+    .delete()
+    .where({ id: req.params.id })
+    .then(() => {
+      res.status(204).send(`Like with id: ${req.params.id} has been deleted`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error deleting Like ${req.params.id} ${err}`)
+    );
+};
+
 exports.userDislikes = (req, res) => {
     knex('user_dislikes')
         .where({ user_id: req.params.user })
@@ -131,6 +182,36 @@ exports.userDislikes = (req, res) => {
             )
         );
     };
+
+    exports.addUserDislikes = (req, res) => {
+      if (!req.body.dislikes) {
+        return res.status(400).send('Please enter something you dislike.');
+      }
+      knex('user_dislikes')
+      .insert(req.body)
+      .then((data) => {
+        res.status(201).json(data);
+      })
+      .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error creating dislike for user ${req.params.user} ${err}`
+        )
+      );
+    }
+    
+    exports.deleteUserDislikes = (req, res) => {
+      knex('user_dislikes')
+        .delete()
+        .where({ id: req.params.id })
+        .then(() => {
+          res.status(204).send(`Like with id: ${req.params.id} has been deleted`);
+        })
+        .catch((err) =>
+          res.status(400).send(`Error deleting Like ${req.params.id} ${err}`)
+        );
+    };    
 
 exports.userFriends = (req, res) => {
     knex('user_friends')

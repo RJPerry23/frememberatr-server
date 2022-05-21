@@ -9,6 +9,9 @@ app.use(express.json());
 app.use(express.static('public'));
 app.use(cors());
 
+//any middleware that should run on the entire website
+//will go here
+
 //make middleware function for JWT
 //implement on all endpoints that depend on being logged in
 //check to see if there is a token
