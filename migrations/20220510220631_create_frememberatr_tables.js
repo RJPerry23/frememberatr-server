@@ -70,6 +70,14 @@ exports.up = function(knex) {
         .inTable("profiles")
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
+        table
+        .integer("profile_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("profiles")
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
     })
 };
 

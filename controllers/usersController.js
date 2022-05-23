@@ -77,6 +77,18 @@ exports.index = (_req, res) => {
       .catch((err) => res.status(400).send(`Error retrieving friends table ${err}`));
   };
 
+  exports.profilesFriendRequestData = (req, res) => {
+    knex.from('user_friend_requests')
+    .innerJoin('profiles', 'user_friend_requests.profile_id', 'profiles.id')
+      .where('user_friend_requests.user_id', req.params.user )
+      .then((data) => {
+        res.status(200).json(data);
+      })
+      .catch((err) =>
+      res.status(400).send(`Error retrieving data for profile ${req.params.id} ${err}`)
+      );
+  };  
+
 exports.profile = (req, res) => {
     knex('profiles')
         .where({ id: req.params.user })
@@ -122,6 +134,21 @@ exports.authenticate = (req, res) => {
     }
     });
   };
+
+exports.currentUser = (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(201).send({user: "unknown"});
+  } 
+  // Parse the Bearer token
+  const authToken = req.headers.authorization.split(" ")[1];
+
+  jwt.verify(authToken, process.env.JWT_KEY, (err, decoded) => {
+    if (err) {
+      return res.status(401).send("Invalid auth token");
+    }
+      else {return res.status(201).send({user: decoded.id})}
+    });
+}
 
 exports.userLikes = (req, res) => {
     knex('user_likes')
@@ -242,3 +269,37 @@ exports.userFriendRequests = (req, res) => {
             )
         );
     };
+
+exports.addFriendRequest = (req, res) => {
+      if (!req.body.friend_requests) {
+        return res.status(400).send('Please add a friend.');
+      }
+      knex('user_friend_requests')
+      .insert(req.body)
+      .then((data) => {
+        res.status(201).json(data);
+      })
+      .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error creating friend request for ${req.params.user} ${err}`
+        )
+      );
+    }
+ 
+
+exports.deleteFriendRequest = (req, res) => {
+  knex('user_friend_requests')
+    .delete()
+    .where({ id: req.params.id })
+    .then(() => {
+      res.status(204).send(`Friend request with id: ${req.params.id} has been deleted`);
+    })
+    .catch((err) =>
+      res.status(400).send(`Error deleting friend request ${req.params.id} ${err}`)
+    );
+};    
+
+ 
+

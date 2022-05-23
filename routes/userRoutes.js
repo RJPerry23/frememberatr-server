@@ -19,18 +19,26 @@ router
     .get(usersController.entireFriendsTable);
 
 router
+    .route('/:user/profilesandfriendrequests')
+    .get(usersController.profilesFriendRequestData)
+
+router
     .route('/:user')
     .get(usersController.profile)
     .patch(authenticator, usersController.patchProfile);
 
 router
     .route('/:user/authenticate')
-    .get(usersController.authenticate)
+    .get(usersController.authenticate);
+
+router
+    .route('/:user/current')
+    .get(usersController.currentUser);
 
 router
     .route('/:user/likes')
     .get(usersController.userLikes)
-    .post(authenticator, usersController.addUserLikes)
+    .post(authenticator, usersController.addUserLikes);
 
 router
     .route('/:user/likes/:id')
@@ -51,7 +59,12 @@ router
 
 router
     .route('/:user/friendrequests')
-    .get(usersController.userFriendRequests);
+    .get(usersController.userFriendRequests)
+    .post(authenticator, usersController.addFriendRequest);
+
+router
+    .route('/:user/friendrequests/:id')
+    .delete(authenticator, usersController.deleteFriendRequest);
 
 
 module.exports = router;
