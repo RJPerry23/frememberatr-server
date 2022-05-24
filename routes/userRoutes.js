@@ -55,7 +55,8 @@ router
 
 router
     .route('/:user/friends')
-    .get(usersController.userFriends);
+    .get(usersController.userFriends)
+    .post(authenticator, usersController.confirmFriendRequest);
 
 router
     .route('/:user/friendrequests')

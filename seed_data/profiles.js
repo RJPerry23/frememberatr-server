@@ -20,10 +20,10 @@ const profileData =
     },
     {
         id: 3,
-        name: "Matt",
+        name: "Mike",
         about: "Have ya ever met a man with a real yardarm? Brwaack! Polly want a cracker? … Oh, wait. That's for Talk Like a PARROT Day. Why are pirates pirates? cuz they arrrrrr The existence of the sea means the existence of pirates. Damnation seize my soul if I give you quarters, or take any from you. Shiver me timbers.",
         profilePicture: "",
-        username: "matttheman",
+        username: "miketheman",
         password: "kangaroos",
     },
     {

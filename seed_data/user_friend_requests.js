@@ -29,4 +29,10 @@ module.exports = [
         profile_id: 6,
         friend_requests: 'Stan'
     },
+    {
+        id: 6,
+        user_id: 1,
+        profile_id: 7,
+        friend_requests: 'Chris'
+    },
 ]

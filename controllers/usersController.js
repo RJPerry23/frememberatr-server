@@ -29,10 +29,19 @@ exports.index = (_req, res) => {
     }
 
     knex('profiles')
-        .insert(newProfile)
-        .then((data) => {
+      .select()
+      .where('username', username)
+      .then(function(rows) {
+        if (rows.length===0) {
+          // no matching records found
+          knex('profiles').insert(newProfile)
+          .then((data) => {
             const newUserUrl = `/users/${data[0]}`
             res.status(201).location(newUserUrl).send(newUserUrl);
+          })
+        } else {
+          return res.status(400).send("Username taken.");
+        }
       })
       .catch((err) => res.status(400).send(`Error creating profile: ${err}`));
   };
@@ -52,7 +61,7 @@ exports.index = (_req, res) => {
             const id = user.id
 
           if (!isPasswordCorrect) {
-              return res.status(400).send('Invalid Password')
+              return res.status(400).send('Invalid Username or Password')
           }
 
           const token = jwt.sign(
@@ -254,6 +263,24 @@ exports.userFriends = (req, res) => {
             )
         );
     };  
+
+exports.confirmFriendRequest = (req, res) => {
+      if (!req.body.friends) {
+        return res.status(400).send('Please confirm a friend request.');
+      }
+      knex('user_friends')
+      .insert(req.body)
+      .then((data) => {
+        res.status(201).json(data);
+      })
+      .catch((err) =>
+      res
+        .status(400)
+        .send(
+          `Error creating friend request for ${req.params.user} ${err}`
+        )
+      );
+    }
 
 exports.userFriendRequests = (req, res) => {
     knex('user_friend_requests')
