@@ -14,7 +14,6 @@ app.use(cors());
 app.use(fileUpload());
 
 app.post('/upload', authenticator, (req, res) => {
-  console.log(req.files['image-field']);
   const imageFile = req.files['image-field']
   const fileName = imageFile.name
   const uploadPath = `images/${fileName}`

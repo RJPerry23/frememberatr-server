@@ -73,7 +73,6 @@ exports.index = (_req, res) => {
           res.json({token, id})
       })
       .catch((err) => {
-        console.log(err);
         res.status(400).send("Invalid credentials");
       });
   }
