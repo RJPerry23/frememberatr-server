@@ -2,31 +2,31 @@ module.exports = [
     {
         id: 1,
         user_id: 1,
-        likes: "apples"
+        likes: "BrainStation"
     },
     {
         id: 2,
         user_id: 1,
-        likes: "pretzels"
+        likes: "Pretzels"
     },
     {
         id: 3,
         user_id: 1,
-        likes: "Long walks on the beach Long walks on the beach Long walks on the beach"
+        likes: "Apples"
     },
     {
         id: 4,
         user_id: 2,
-        likes: "Playing runescape"
+        likes: "Brainstation"
     },
     {
         id: 5,
         user_id: 2,
-        likes: "Being a student at BrainStation"
+        likes: "Oranges"
     },
     {
         id: 6,
         user_id: 2,
-        likes: "Spending time outside"
+        likes: "Bread"
     },
 ]
