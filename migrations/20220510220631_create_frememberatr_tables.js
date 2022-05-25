@@ -1,9 +1,11 @@
+const { LONG_BLOB } = require("mysql/lib/protocol/constants/types");
+
 exports.up = function(knex) {
     return knex.schema
     .createTable('profiles', (table) => {
         table.increments('id').primary();
         table.string('name').notNullable();
-        table.string('about').notNullable();
+        table.string('about', 1000).notNullable();
         table.string('profilePicture').notNullable();
         table.string('username').notNullable();
         table.string('password').notNullable();
@@ -47,6 +49,14 @@ exports.up = function(knex) {
         .inTable("profiles")
         .onUpdate('CASCADE')
         .onDelete('CASCADE');
+        table
+        .integer("profile_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("profiles")
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
     })
     .createTable('user_friend_requests', (table) => {
         table.increments('id').notNullable().primary();
@@ -54,6 +64,14 @@ exports.up = function(knex) {
         table.timestamp('updated_at').defaultTo(knex.fn.now());
         table    
         .integer("user_id")
+        .unsigned()
+        .notNullable()
+        .references("id")
+        .inTable("profiles")
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
+        table
+        .integer("profile_id")
         .unsigned()
         .notNullable()
         .references("id")

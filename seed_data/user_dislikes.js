@@ -2,22 +2,22 @@ module.exports = [
     {
         id: 1,
         user_id: 1,
-        dislikes: "oranges"
+        dislikes: "Coding issues"
     },
     {
         id: 2,
         user_id: 1,
-        dislikes: "bread"
+        dislikes: "Bugs/Insects"
     },
     {
         id: 3,
         user_id: 1,
-        dislikes: "Short walks on the beach"
+        dislikes: "Bad weather"
     },
     {
         id: 4,
         user_id: 2,
-        dislikes: "Playing World of Warcraft"
+        dislikes: "Coding issues"
     },
     {
         id: 5,
@@ -27,6 +27,6 @@ module.exports = [
     {
         id: 6,
         user_id: 2,
-        dislikes: "Spending lots of time inside"
+        dislikes: "Bugs/Insects"
     },
 ]
