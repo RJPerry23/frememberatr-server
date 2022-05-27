@@ -11,9 +11,9 @@ human brain, simply log on to your Frememberatr profile and look up what you nee
 Each user makes their own profile and simply creates a collection log of things they like, and
 things they don’t like.
 
-Before starting the server, you will have to configure a database on MySQL. Check the knexfile.js and make sure it aligns with your personal set up on MySQL. Check that the username and password match your own configuration, and that you have created a database locally (called 'frememberatr'). Then, from the project directory run the terminal command 'npm run migrate' to add the necessary tables to your database which will store the data that the app generates from the users. After that, you may populate these tables with seed data by running the command 'npm run seed'.
+First, install the server's dependencies. Navigate to the directory it's saved under and install all dependencies by using the terminal command 'npm i'.
 
-To run the server, navigate to the directory it's stored under and install all dependencies by using the terminal command 'npm i'.
+Before starting the server, you will have to configure a database on MySQL. Check the knexfile.js and make sure it aligns with your personal set up on MySQL. Check that the username and password match your own configuration, and that you have created a database locally (called 'frememberatr'). Then, from the project directory run the terminal command 'npm run migrate' to add the necessary tables to your database which will store the data that the app generates from the users. After that, you may populate these tables with seed data by running the command 'npm run seed'.
 
 Then, start it with the command 'npm start.'
 
