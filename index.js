@@ -15,11 +15,12 @@ app.use(fileUpload());
 
 app.post('/upload', authenticator, (req, res) => {
   const imageFile = req.files['image-field']
-  const fileName = imageFile.name
+  const fileName = imageFile.name //will be uuid
   const uploadPath = `images/${fileName}`
   imageFile.mv(`${__dirname}/public/${uploadPath}`, 
     function(err){
       if (err) {return res.status(500).send(err.message)}
+      //add new name to my data
       return res.send({path: uploadPath})
   })
 });
