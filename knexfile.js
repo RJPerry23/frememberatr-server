@@ -7,5 +7,14 @@ module.exports = {
       password: "rootroot",
       database: "frememberatr"
     }
-  }
+  },
+  production: {
+    client: 'mysql',
+    connection: process.env.JAWSDB_URL,
+  },
 };
+
+module.exports = 
+  process.env.NODE_ENV === 'production'
+    ? connections.production
+    : connections.development;
